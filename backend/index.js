@@ -9,6 +9,7 @@ const cors = require("cors");
 app.use(express.json());
 app.use(morgan("dev", Request));
 app.use(cors());
+app.use(express.static("build"));
 
 let notes = [
   {
