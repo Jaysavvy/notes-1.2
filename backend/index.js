@@ -1,3 +1,4 @@
+require("dotenv").config();
 const http = require("http");
 
 //Middleware
@@ -5,39 +6,31 @@ const express = require("express");
 const app = express();
 const morgan = require("morgan");
 const cors = require("cors");
-const mongoose = require("mongoose");
+const Note = require("./module/note");
 
 app.use(express.json());
-app.use(morgan("dev", Request));
+
 app.use(cors());
 app.use(express.static("build"));
 
-require("dotenv").config();
+morgan.token("payload", function (req) {
+  return JSON.stringify(req.body);
+});
 
-let notes = [
-  {
-    id: 1,
-    content: "HTML is easy",
-    important: true,
-  },
-  {
-    id: 2,
-    content: "Browser can execute only JavaScript",
-    important: false,
-  },
-  {
-    id: 3,
-    content: "GET and POST are the most important methods of HTTP protocol",
-    important: true,
-  },
-];
+app.use(
+  morgan(
+    ":method :url :status :res[content-length] - :response-time ms :payload"
+  )
+);
 
 app.get("/", (request, response) => {
   response.send("<h1>Hello World!</h1>");
 });
 
 app.get("/api/notes", (request, response) => {
-  response.json(notes);
+  Note.find({}).then((notes) => {
+    response.json(notes);
+  });
 });
 
 app.get("/api/notes/:id", (request, response) => {
@@ -84,7 +77,7 @@ app.post("/api/notes", (request, response) => {
   response.json(note);
 });
 
-const PORT = process.env.PORT || 3003;
+const PORT = process.env.PORT;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
