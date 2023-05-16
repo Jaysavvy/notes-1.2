@@ -7,6 +7,9 @@ const app = express();
 const morgan = require("morgan");
 const cors = require("cors");
 const Note = require("./module/note");
+const config = require('./utils/config');
+const logger = require('./utils/logger');
+
 
 app.use(express.json());
 
