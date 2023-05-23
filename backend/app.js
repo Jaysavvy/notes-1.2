@@ -7,16 +7,21 @@ const app = express();
 require('express-async-errors')
 const morgan = require("morgan");
 const cors = require("cors");
-const Note = require("./module/note");
+const Note = require("./models/note");
+const User = require("./models/user");
 const middleware = require("./utils/middleware");
 const config = require("./utils/config");
 const logger = require("./utils/logger");
 const notesRouter = require("./controllers/notes");
+const usersRouter = require('./controllers/user')
+
 
 app.use(express.json());
 
 app.use(cors());
 app.use("/api/notes", notesRouter);
+app.use('/api/users', usersRouter)
+
 app.use(express.static("build"));
 
 morgan.token("payload", function (req) {

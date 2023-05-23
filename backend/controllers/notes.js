@@ -1,6 +1,7 @@
 
 const notesRouter = require("express").Router();
-const Note = require("../module/note");
+const Note = require("../models/note");
+const User = require("../models/user");
 
 
 
