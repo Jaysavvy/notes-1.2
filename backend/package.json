@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_ENV=production node index.js",
+    "start": "NODE_ENV=production nodemon index.js",
     "dev": "NODE_ENV=development nodemon index.js --ignore client",
     "test": "NODE_ENV=test jest --verbose --runInBand"
   },
@@ -17,6 +17,7 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-async-errors": "^3.1.1",
+    "jsonwebtoken": "^9.0.0",
     "mongoose": "^7.1.0",
     "mongoose-unique-validator": "^4.0.0",
     "morgan": "^1.10.0"
