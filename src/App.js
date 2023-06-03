@@ -4,19 +4,44 @@ import Notes from "./compoents/Notes";
 import noteService from "./notesservices";
 import { Notification } from "./compoents/Notification";
 import "./index.css";
+ 
+const Footer = () => {
+    const footerStyle = {
+      color: "green",
+      fontStyle: "italic",
+      fontSize: 16,
+    };
+
+    
+
+    return (
+      <div style={footerStyle}>
+        <br />
+        <em>
+          Note app, Department of Computer Science, University of Helsinki 2022{" "}
+        </em>
+      </div>
+    );
+  };
+
 
 function App(props) {
   const [notes, setNotes] = useState([]);
   const [newNote, setNewNote] = useState("a new note...");
   const [showAll, setShowAll] = useState(true);
   const [errorMessage, setErrorMessage] = useState("some error happened...");
+  const [username, setUsername] = useState('') 
+  const [password, setPassword] = useState('') 
 
   useEffect(() => {
     noteService.getAll().then((response) => {
       setNotes(response.data);
     });
   }, []);
-
+const handleLogin = (event) => {
+      event.preventDefault()
+      console.log('logging in with', username, password)
+    }
   console.log("render", notes.length, "notes");
 
   const addNote = (event) => {
@@ -63,27 +88,33 @@ function App(props) {
       });
   };
 
-  const Footer = () => {
-    const footerStyle = {
-      color: "green",
-      fontStyle: "italic",
-      fontSize: 16,
-    };
-
-    return (
-      <div style={footerStyle}>
-        <br />
-        <em>
-          Note app, Department of Computer Science, University of Helsinki 2022{" "}
-        </em>
-      </div>
-    );
-  };
-
+ 
   return (
     <div>
       <h1>Notes</h1>
       <Notification msg={errorMessage} />
+      <form onSubmit={handleLogin}>
+        <div>
+          username
+            <input
+            type="text"
+            value={username}
+            name="Username"
+            onChange={({ target }) => setUsername(target.value)}
+          />
+        </div>
+        <div>
+          password
+            <input
+            type="password"
+            value={password}
+            name="Password"
+            onChange={({ target }) => setPassword(target.value)}
+          />
+        </div>
+        <button type="submit">login</button>
+      </form>
+
       <div>
         <button onClick={() => setShowAll(!showAll)}>
           show {showAll ? "important" : "all"}
