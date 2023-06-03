@@ -24,12 +24,25 @@ function App(props) {
     });
   }, []);
 
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser')
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+      noteService.setToken(user.token)
+    }
+  }, [])
+
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
       const user = await loginService.login({
         username, password,
       })
+
+      window.localStorage.setItem(
+        'loggedNoteappUser', JSON.stringify(user)
+      )
 
       noteService.setToken(user.token)
       setUser(user)
@@ -68,7 +81,7 @@ function App(props) {
     : notes.filter((note) => note.important == true);
 
   const toggleImportanceOf = (id) => {
-    const url = `http://localhost:3001/notes/${id}`;
+    const url = `http://localhost:3003/api/notes/${id}`;
     const note = notes.find((n) => n.id === id);
     const changedNote = { ...note, important: !note.important };
 
