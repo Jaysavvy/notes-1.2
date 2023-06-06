@@ -25,9 +25,19 @@ const update = (id, newObject) => {
   return axios.put(`${baseUrl}/${id}`, newObject);
 };
 
-export default {
+const exportedNoteServices = {
   getAll: getAll,
   create: create,
   update: update,
   setToken: setToken,
 };
+
+export default exportedNoteServices;
+
+
+// export default {
+//   getAll: getAll,
+//   create: create,
+//   update: update,
+//   setToken: setToken,
+// };
