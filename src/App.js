@@ -12,6 +12,7 @@ import loginService from "./services /login"
 
 
 
+
 function App(props) {
   const [notes, setNotes] = useState([]);
   const [newNote, setNewNote] = useState("a new note...");
@@ -30,7 +31,6 @@ function App(props) {
   }, []);
 
   
-
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser')
     if (loggedUserJSON) {
@@ -65,9 +65,11 @@ function App(props) {
     }
   }
 
+ 
   
 
   const addNote = (noteObject) => {
+    noteFormRef.current.toggleVisibility()
     noteService
       .create(noteObject)
       .then(returnedNote => {
@@ -112,6 +114,9 @@ function App(props) {
         setNotes(notes.filter((n) => n.id !== id));
       });
   };
+
+
+
 
  
   return (
